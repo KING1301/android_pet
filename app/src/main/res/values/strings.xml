@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">petdemo</string>
+
+
+    <!--闹钟提示界面相关字符串资源-->
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_5">5</string>
+    <string name="_6">6</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="_9">9</string>
+    <string name="delime1">.</string>
+    <string name="_0" translatable="false">0</string>
+    <string name="delime2">-</string>
+    <string name="ce">CE</string>
+
+    <!--右滑栏文本-->
+    <string name="username">UserName</string>
+
+    <!--新建闹钟界面字符串资源-->
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+    <!--drawer拖动-->
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+
+</resources>

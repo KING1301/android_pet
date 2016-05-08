@@ -1,0 +1,25 @@
+<RelativeLayout
+    android:id="@+id/petview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:id="@+id/floatview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/assist_anzai_middle_green"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"/>
+    <TextView
+        android:id="@+id/pettitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_toRightOf="@id/floatview"
+        android:background="@drawable/ss"
+        android:gravity="center_vertical|center_horizontal"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>

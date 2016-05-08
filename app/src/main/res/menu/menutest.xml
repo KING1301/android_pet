@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appcompat="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_item_save"
+        android:title="@string/save"
+        android:icon="@drawable/ic_info_black_24dp"
+        appcompat:showAsAction="always">
+    </item>
+    <item
+        android:id="@+id/menu_item_delete"
+        android:title="@string/delete"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        appcompat:showAsAction="always">
+    </item>
+</menu>
