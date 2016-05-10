@@ -53,7 +53,8 @@ public class petservice extends Service {
         STOP,
         NORMAL0,
         NORMAL1,
-        NORMAL2;
+        NORMAL2,
+        WECHAT_NOTICE;
         @Override
         public String toString() {
             switch(this.ordinal()){
@@ -196,7 +197,8 @@ public class petservice extends Service {
     {
         wmParams = new WindowManager.LayoutParams();
         //获取的是WindowManagerImpl.CompatModeWrapper
-        mWindowManager = (WindowManager)getApplication().getSystemService(getApplication().WINDOW_SERVICE);
+        // mWindowManager = (WindowManager)getApplication().getSystemService(getApplication().WINDOW_SERVICE);
+        mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         Log.i(TAG, "mWindowManager--->" + mWindowManager);
         //设置window type
         wmParams.type = LayoutParams.TYPE_PHONE;
@@ -366,6 +368,27 @@ public class petservice extends Service {
 
             }
         });
+        /*监听信息点击*/
+        mTextview.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (state == STATE.WECHAT_NOTICE) {
+
+                    Intent intent = new Intent("WECHAT_CLICK");
+                    // intent.putExtras(mNotification.extras);
+                    sendBroadcast(intent);
+                    Log.d("点击消息", "点击消息广播");
+                    //点击后取消显示
+                    state = STATE.STOP;
+                    mTextview.setVisibility(View.GONE);
+
+
+                } else {
+                    Log.d("无通知", "未显示微信通知");
+                }
+
+            }
+        });
     }
 
 
@@ -402,20 +425,18 @@ public class petservice extends Service {
             if (intent != null) {
                 Bundle extras = intent.getExtras();
                 String notificationTitle = extras.getString(Notification.EXTRA_TITLE);
-                int notificationIcon = extras.getInt(Notification.EXTRA_SMALL_ICON);
-                Bitmap notificationLargeIcon = ((Bitmap) extras.getParcelable(Notification.EXTRA_LARGE_ICON));
+                // int notificationIcon = extras.getInt(Notification.EXTRA_SMALL_ICON);
+                //  Bitmap notificationLargeIcon = ((Bitmap) extras.getParcelable(Notification.EXTRA_LARGE_ICON));
                 CharSequence notificationText = extras.getCharSequence(Notification.EXTRA_TEXT);
-                CharSequence notificationSubText = extras.getCharSequence(Notification.EXTRA_SUB_TEXT);
+                //CharSequence notificationSubText = extras.getCharSequence(Notification.EXTRA_SUB_TEXT);
 
                 //title.setText(notificationTitle);
                // text.setText(notificationText);
                // subtext.setText(notificationSubText);
-                state=STATE.STOP;
+                state = STATE.WECHAT_NOTICE;
                 mTextview.setVisibility(View.VISIBLE);
                 mFloatView.setImageResource(R.drawable.wk);
-                mTextview.setText(notificationTitle+""+notificationText);
-
-
+                mTextview.setText(notificationTitle + "\n" + notificationText);
 
                // if (notificationLargeIcon != null) {
                //     largeIcon.setImageBitmap(notificationLargeIcon);
