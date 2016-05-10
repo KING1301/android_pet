@@ -3,9 +3,15 @@ package com.example.ml.petdemo;
 
 
 
+import android.app.Notification;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -29,9 +35,10 @@ public class petservice extends Service {
     WindowManager mWindowManager;
     WindowManager.LayoutParams wmParams;
 
-    RelativeLayout mRelativeLayout;
-    ImageView mFloatView;
-    TextView mTextview;
+    private  RelativeLayout mRelativeLayout;
+    private ImageView mFloatView;
+    private TextView mTextview;
+    protected MyReceiver mReceiver = new MyReceiver();
 
 
     private AnimationDrawable animationDrawable;
@@ -174,6 +181,8 @@ public class petservice extends Service {
         Log.i(TAG, "oncreat");
         createFloatView();
         handler.postDelayed(runnable, 1000 * 6);
+        if (mReceiver == null) mReceiver = new MyReceiver();
+        registerReceiver(mReceiver, new IntentFilter("WECHAT_NOTICE"));
     }
 
     @Override
@@ -196,7 +205,7 @@ public class petservice extends Service {
         //设置浮动窗口不可聚焦（实现操作除浮动窗口外的其他可见窗口的操作）
         wmParams.flags = LayoutParams.FLAG_NOT_FOCUSABLE;
         //调整悬浮窗显示的停靠位置为左侧置顶
-        wmParams.gravity = Gravity.LEFT | Gravity.TOP;
+        wmParams.gravity = Gravity.START | Gravity.TOP;
 
         // 以屏幕左上角为原点，设置x、y初始值，相对于gravity
         wmParams.x = 0;
@@ -381,6 +390,39 @@ public class petservice extends Service {
             mWindowManager.removeView(mTextview);
         }
         handler.removeCallbacks(runnable); //停止刷新
+        unregisterReceiver(mReceiver);
+    }
+
+
+    public class MyReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent != null) {
+                Bundle extras = intent.getExtras();
+                String notificationTitle = extras.getString(Notification.EXTRA_TITLE);
+                int notificationIcon = extras.getInt(Notification.EXTRA_SMALL_ICON);
+                Bitmap notificationLargeIcon = ((Bitmap) extras.getParcelable(Notification.EXTRA_LARGE_ICON));
+                CharSequence notificationText = extras.getCharSequence(Notification.EXTRA_TEXT);
+                CharSequence notificationSubText = extras.getCharSequence(Notification.EXTRA_SUB_TEXT);
+
+                //title.setText(notificationTitle);
+               // text.setText(notificationText);
+               // subtext.setText(notificationSubText);
+                state=STATE.STOP;
+                mTextview.setVisibility(View.VISIBLE);
+                mFloatView.setImageResource(R.drawable.wk);
+                mTextview.setText(notificationTitle+""+notificationText);
+
+
+
+               // if (notificationLargeIcon != null) {
+               //     largeIcon.setImageBitmap(notificationLargeIcon);
+               // }
+            }
+
+        }
     }
 
 
