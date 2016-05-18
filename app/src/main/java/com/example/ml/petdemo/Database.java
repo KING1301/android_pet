@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -22,12 +21,6 @@ import java.util.List;
  * 初始化和维护闹钟数据库信息
  */
 public class Database extends SQLiteOpenHelper {
-    static Database instance = null;
-    static SQLiteDatabase database = null;
-
-    static final String DATABASE_NAME = "DB";
-    static final int DATABASE_VERSION = 1;
-
     public static final String ALARM_TABLE = "alarm";
     public static final String COLUMN_ALARM_ID = "_id";
     public static final String COLUMN_ALARM_ACTIVE = "alarm_active";
@@ -36,45 +29,34 @@ public class Database extends SQLiteOpenHelper {
     public static final String COLUMN_ALARM_RING = "alarm_ring";
     public static final String COLUMN_ALARM_VIBRATE = "alarm_vibrate";
     public static final String COLUMN_ALARM_NAME = "alarm_name";
+    static final String DATABASE_NAME = "DB";
+    static final int DATABASE_VERSION = 1;
+    static Database instance = null;
+    static SQLiteDatabase database = null;
     /**调用父类构造器，创建数据库*/
     Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        // TODO Auto-generated method stub
-        /**创建ALARM数据库表 数据库首次创建时执行*/
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + ALARM_TABLE + " ( "
-                + COLUMN_ALARM_ID + " INTEGER primary key autoincrement, "
-                + COLUMN_ALARM_ACTIVE + " INTEGER NOT NULL, "
-                + COLUMN_ALARM_TIME + " TEXT NOT NULL, "
-                + COLUMN_ALARM_DAYS + " BLOB NOT NULL, "
-                + COLUMN_ALARM_RING + " TEXT NOT NULL, "
-                + COLUMN_ALARM_VIBRATE + " INTEGER NOT NULL, "
-                + COLUMN_ALARM_NAME + " TEXT NOT NULL)");
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + ALARM_TABLE);
-        onCreate(db);
-    }
-
-    /**获取对象事例*/
+    /**
+     * 获取对象事例
+     */
     public static void init(Context context) {
         if (null == instance) {
             instance = new Database(context);
         }
     }
-    /**通过对象事例获取数据库对象*/
+
+    /**
+     * 通过对象事例获取数据库对象
+     */
     public static SQLiteDatabase getDatabase() {
         if (null == database) {
             database = instance.getWritableDatabase();
         }
         return database;
     }
+
     /**关闭数据库*/
     public static void deactivate() {
         if (null != database && database.isOpen()) {
@@ -83,6 +65,7 @@ public class Database extends SQLiteOpenHelper {
         database = null;
         instance = null;
     }
+
     /**向数据库中插入ALARM类对象数据*/
     public static long create(Alarm alarm) {
         ContentValues cv = new ContentValues();
@@ -98,7 +81,7 @@ public class Database extends SQLiteOpenHelper {
 
             cv.put(COLUMN_ALARM_DAYS, buff);
 
-        } catch (Exception e){
+        } catch (Exception e) {
         }
 
         cv.put(COLUMN_ALARM_RING, alarm.getAlarmRing());
@@ -108,7 +91,9 @@ public class Database extends SQLiteOpenHelper {
         return getDatabase().insert(ALARM_TABLE, null, cv);
     }
 
-    /**更新数据库中ALARM对象的数据*/
+    /**
+     * 更新数据库中ALARM对象的数据
+     */
     public static int update(Alarm alarm) {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_ALARM_ACTIVE, alarm.getAlarmActive());
@@ -133,22 +118,20 @@ public class Database extends SQLiteOpenHelper {
         return getDatabase().update(ALARM_TABLE, cv, "_id=" + alarm.getId(), null);
     }
 
-    public static int deleteEntry(Alarm alarm){
+    public static int deleteEntry(Alarm alarm) {
         return deleteEntry(alarm.getId());
     }
 
-    /**数据库中删除相应ID的ALARM对象数据*/
-    public static int deleteEntry(int id){
+    /**
+     * 数据库中删除相应ID的ALARM对象数据
+     */
+    public static int deleteEntry(int id) {
         return getDatabase().delete(ALARM_TABLE, COLUMN_ALARM_ID + "=" + id, null);
-    }
-
-    public static int deleteAll(){
-        return getDatabase().delete(ALARM_TABLE, "1", null);
     }
 
     public static Cursor getCursor() {
         // TODO Auto-generated method stub
-        String[] columns = new String[] {
+        String[] columns = new String[]{
                 COLUMN_ALARM_ID,
                 COLUMN_ALARM_ACTIVE,
                 COLUMN_ALARM_TIME,
@@ -161,10 +144,9 @@ public class Database extends SQLiteOpenHelper {
                 null);
     }
 
-
-
-
-    /**获取数据库中所有的ALARM对象并返回相应的ArrayList 用于初始化listview的适配器*/
+    /**
+     * 获取数据库中所有的ALARM对象并返回相应的ArrayList 用于初始化listview的适配器
+     */
     public static List<Alarm> getAll() {
         List<Alarm> alarms = new ArrayList<Alarm>();
         Cursor cursor = Database.getCursor();
@@ -207,5 +189,24 @@ public class Database extends SQLiteOpenHelper {
         }
         cursor.close();
         return alarms;
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        /**创建ALARM数据库表 数据库首次创建时执行*/
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + ALARM_TABLE + " ( "
+                + COLUMN_ALARM_ID + " INTEGER primary key autoincrement, "
+                + COLUMN_ALARM_ACTIVE + " INTEGER NOT NULL, "
+                + COLUMN_ALARM_TIME + " TEXT NOT NULL, "
+                + COLUMN_ALARM_DAYS + " BLOB NOT NULL, "
+                + COLUMN_ALARM_RING + " TEXT NOT NULL, "
+                + COLUMN_ALARM_VIBRATE + " INTEGER NOT NULL, "
+                + COLUMN_ALARM_NAME + " TEXT NOT NULL)");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + ALARM_TABLE);
+        onCreate(db);
     }
 }

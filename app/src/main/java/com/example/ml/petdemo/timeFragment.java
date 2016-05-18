@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -83,6 +82,7 @@ public class timeFragment extends Fragment  {
             }
         });
 
+        //启动alarm服务
 
         ((MainActivity)getActivity()).callMathAlarmScheduleService();
 

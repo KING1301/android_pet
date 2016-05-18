@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW"/>
 
     <application
+        android:name=".petApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
