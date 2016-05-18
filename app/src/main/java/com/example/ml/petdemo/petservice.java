@@ -1,16 +1,15 @@
 package com.example.ml.petdemo;
 
 
-
-
 import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -19,61 +18,27 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
-
 import android.widget.ImageView;
-
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.Color;
 public class petservice extends Service {
 
+    private static final String TAG = "petfloatservice";
+    protected MyReceiver mReceiver = new MyReceiver();
     WindowManager mWindowManager;
     WindowManager.LayoutParams wmParams;
-
     private  RelativeLayout mRelativeLayout;
     private ImageView mFloatView;
     private TextView mTextview;
-    protected MyReceiver mReceiver = new MyReceiver();
-
-
     private AnimationDrawable animationDrawable;
-
-    private static final String TAG = "petfloatservice";
     private  int screenWidth=0;
     private  int screenHeight=0;
     private  int startx=0;
     private  int starty=0;
-
-    public enum STATE{
-        STOP,
-        NORMAL0,
-        NORMAL1,
-        NORMAL2,
-        WECHAT_NOTICE;
-        @Override
-        public String toString() {
-            switch(this.ordinal()){
-                case 0:
-                    return "";
-                case 1:
-                    return "抱抱我";
-                case 2:
-                    return "摸摸我";
-                case 3:
-                    return "睡睡我";
-            }
-            return super.toString();
-        }
-    }
-
-
-
-
     /*
     *用于定时刷新界面
      */
@@ -166,17 +131,8 @@ public class petservice extends Service {
         }
     };
 
-
-        /*
-    *浮动窗口属性变量
-    * 浮动窗口管理类
-     */
-
-
-
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
         Log.i(TAG, "oncreat");
@@ -185,6 +141,12 @@ public class petservice extends Service {
         if (mReceiver == null) mReceiver = new MyReceiver();
         registerReceiver(mReceiver, new IntentFilter("WECHAT_NOTICE"));
     }
+
+
+        /*
+    *浮动窗口属性变量
+    * 浮动窗口管理类
+     */
 
     @Override
     public IBinder onBind(Intent intent)
@@ -217,105 +179,90 @@ public class petservice extends Service {
         wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        wmParams.windowAnimations=android.R.style.Animation_Translucent;
+        wmParams.windowAnimations = android.R.style.Animation_Translucent;
 
-        mRelativeLayout =(RelativeLayout)LayoutInflater.from(this).inflate(R.layout.petview,null);
-        mFloatView=(ImageView)mRelativeLayout.findViewById(R.id.floatview);
-        mTextview=(TextView)mRelativeLayout.findViewById(R.id.pettitle);
+        mRelativeLayout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.petview, null);
+        mFloatView = (ImageView) mRelativeLayout.findViewById(R.id.floatview);
+        mTextview = (TextView) mRelativeLayout.findViewById(R.id.pettitle);
 
         mFloatView.setImageResource(R.drawable.assist_anzai_left_green);
         mFloatView.setBackgroundColor(Color.TRANSPARENT);
 
 
-
         //添加mFloatLayout
         mWindowManager.addView(mRelativeLayout, wmParams);
-        screenWidth=getResources().getDisplayMetrics().widthPixels;
-        screenHeight=getResources().getDisplayMetrics().heightPixels;
-
-
+        screenWidth = getResources().getDisplayMetrics().widthPixels;
+        screenHeight = getResources().getDisplayMetrics().heightPixels;
 
 
         //设置监听浮动窗口的触摸移动
-        mFloatView.setOnTouchListener(new OnTouchListener()
-        {
+        mFloatView.setOnTouchListener(new OnTouchListener() {
 
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                state=STATE.STOP;
+            public boolean onTouch(View v, MotionEvent event) {
+                state = STATE.STOP;
                 mTextview.setVisibility(View.GONE);
 
 
                 // TODO Auto-generated method stub
 
 
-                switch (event.getAction())
-                {
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
 
                         startx = (int) event.getRawX();
                         starty = (int) event.getRawY();
-                        Log.w("startx",startx+"");
-                        if(startx<screenWidth/6)
+                        Log.w("startx", startx + "");
+                        if (startx < screenWidth / 6)
                             mFloatView.setImageResource(R.drawable.assist_anzai_pressed_left_green);
-                        else if(screenWidth - startx<screenWidth/6)
+                        else if (screenWidth - startx < screenWidth / 6)
                             mFloatView.setImageResource(R.drawable.assist_anzai_pressed_right_green);
-                        Log.i("event","down");
+                        Log.i("event", "down");
                         break;
                     case MotionEvent.ACTION_MOVE:
                         int newx = (int) event.getRawX();
                         int newy = (int) event.getRawY();
 
-                            mFloatView.setImageResource(R.drawable.l);
-                            int dx = newx - startx;
-                            int dy = newy - starty;
-                            wmParams.x += dx;
-                            wmParams.y += dy;
-                            // 更新
-                            mWindowManager.updateViewLayout(mRelativeLayout, wmParams);
-                            // 对初始坐标重新赋值
-                            startx = (int) event.getRawX();
-                            starty = (int) event.getRawY();
+                        mFloatView.setImageResource(R.drawable.l);
+                        int dx = newx - startx;
+                        int dy = newy - starty;
+                        wmParams.x += dx;
+                        wmParams.y += dy;
+                        // 更新
+                        mWindowManager.updateViewLayout(mRelativeLayout, wmParams);
+                        // 对初始坐标重新赋值
+                        startx = (int) event.getRawX();
+                        starty = (int) event.getRawY();
 
-                        Log.i("event","move");
-                        Log.d("DEBUG", "getRawX=" + startx + "getRawY=" + starty + "\n" +  "\n");
+                        Log.i("event", "move");
+                        Log.d("DEBUG", "getRawX=" + startx + "getRawY=" + starty + "\n" + "\n");
                         break;
                     case MotionEvent.ACTION_UP:
-                        Log.i("event","up");
+                        Log.i("event", "up");
                         /*
                         *横坐标距离屏幕6/1时贴边
                          */
-                        if (startx <=screenWidth/6) {
+                        if (startx <= screenWidth / 6) {
                             wmParams.x = 0;
                             mWindowManager.updateViewLayout(mRelativeLayout, wmParams);
                             mFloatView.setImageResource(R.drawable.assist_anzai_left_green);
 
 
-                        }
-                        else if(startx>=5*screenWidth/6){
+                        } else if (startx >= 5 * screenWidth / 6) {
                             wmParams.x = screenWidth;
                             mWindowManager.updateViewLayout(mRelativeLayout, wmParams);
                             mFloatView.setImageResource(R.drawable.assist_anzai_right_green);
 
-                        }
-                        else if(starty<=screenHeight/3)
-                        {
+                        } else if (starty <= screenHeight / 3) {
 
                             mFloatView.setImageResource(R.drawable.m);
 
 
-
-                        }
-                        else if(starty<=2*screenHeight/3)
-                        {
+                        } else if (starty <= 2 * screenHeight / 3) {
                             mFloatView.setImageResource(R.drawable.sk);
 
 
-
-                        }
-                        else
-                        {
+                        } else {
                             mFloatView.setImageResource(R.drawable.tb);
 
 
@@ -334,31 +281,22 @@ public class petservice extends Service {
             }
         });
 
-        mFloatView.setOnClickListener(new OnClickListener()
-        {
+        mFloatView.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
-                Log.i("onclick","onclick"+startx+"\n"+starty+"");
-                if(startx>=screenWidth/6&&startx<=5*screenWidth/6)
-                {
-                    if(starty<=screenWidth/3)
-                    {
-                         mFloatView.setImageResource(R.drawable.m);
-
-
-
-                    }
-                    else if(starty<=2*screenWidth/3)
-                    {
+                Log.i("onclick", "onclick" + startx + "\n" + starty + "");
+                if (startx >= screenWidth / 6 && startx <= 5 * screenWidth / 6) {
+                    if (starty <= screenWidth / 3) {
                         mFloatView.setImageResource(R.drawable.m);
 
 
-                    }
-                    else
-                    {
+                    } else if (starty <= 2 * screenWidth / 3) {
+                        mFloatView.setImageResource(R.drawable.m);
+
+
+                    } else {
                         mFloatView.setImageResource(R.drawable.m);
 
 
@@ -391,36 +329,54 @@ public class petservice extends Service {
         });
     }
 
-
-
-
-
-
-
-
     @Override
     public void onDestroy()
     {
         // TODO Auto-generated method stub
         super.onDestroy();
-        if(mFloatView != null)
+        if (mFloatView != null)
         {
             //移除悬浮窗口
             mWindowManager.removeView(mFloatView);
         }
-        if(mTextview!=null)
+        if (mTextview != null)
         {
             mWindowManager.removeView(mTextview);
         }
         handler.removeCallbacks(runnable); //停止刷新
         unregisterReceiver(mReceiver);
+        Log.i("destory", "petserver");
     }
 
+
+    public enum STATE {
+        STOP,
+        NORMAL0,
+        NORMAL1,
+        NORMAL2,
+        WECHAT_NOTICE;
+
+        @Override
+        public String toString() {
+            switch (this.ordinal()) {
+                case 0:
+                    return "";
+                case 1:
+                    return "抱抱我";
+                case 2:
+                    return "摸摸我";
+                case 3:
+                    return "睡睡我";
+            }
+            return super.toString();
+        }
+    }
 
     public class MyReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            //StaticWakeLock.lockOn(context);
 
             if (intent != null) {
                 Bundle extras = intent.getExtras();
@@ -429,10 +385,6 @@ public class petservice extends Service {
                 //  Bitmap notificationLargeIcon = ((Bitmap) extras.getParcelable(Notification.EXTRA_LARGE_ICON));
                 CharSequence notificationText = extras.getCharSequence(Notification.EXTRA_TEXT);
                 //CharSequence notificationSubText = extras.getCharSequence(Notification.EXTRA_SUB_TEXT);
-
-                //title.setText(notificationTitle);
-               // text.setText(notificationText);
-               // subtext.setText(notificationSubText);
                 state = STATE.WECHAT_NOTICE;
                 mTextview.setVisibility(View.VISIBLE);
                 mFloatView.setImageResource(R.drawable.wk);

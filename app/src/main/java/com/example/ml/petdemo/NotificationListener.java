@@ -7,59 +7,41 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
-import android.view.View;
 
 
 public class NotificationListener extends NotificationListenerService {
     //private Notification mNotification;
-    private StatusBarNotification msbn;
+    //private StatusBarNotification msbn;
     private PendingIntentReceiver pendingIntentReceiver = new PendingIntentReceiver();
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d("服务Oncreat", "服务启动");
-        //android.os.Debug.waitForDebugger();
         registerReceiver(pendingIntentReceiver, new IntentFilter("WECHAT_CLICK"));
     }
 
+    //需要考虑系统休眠情况下的处理
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        // if(sbn.getPackageName().toString().equals("com.tencent.mm"))
-        //  {
-        //
-        //  }
-        msbn = sbn;
-        Notification mNotification = msbn.getNotification();
+        if (sbn.getPackageName().toString().equals("com.tencent.mm") || (sbn.getPackageName().toString().equals("com.tencent.mobileqq"))) {
+            // msbn = sbn;
+            ((petApplication) getApplication()).setMsbn1(sbn);
+            //Notification mNotification = msbn.getNotification();
+            Notification mNotification = sbn.getNotification();
         if (mNotification!=null){
             Bundle extras = mNotification.extras;
             Log.d("信息",mNotification.tickerText+"");
             Intent intent = new Intent("WECHAT_NOTICE");
             intent.putExtras(mNotification.extras);
             sendBroadcast(intent);
-            // PendingIntent pendingIntent = mNotification.contentIntent;
-            // try {
-            //     pendingIntent.send();
-            // } catch (PendingIntent.CanceledException e) {
-            //      e.printStackTrace();
-            //  }
-
-
-
-           /* Notification.Action[] mActions=mNotification.actions;
-            if (mActions!=null){
-                for (Notification.Action mAction:mActions){
-                    int icon=mAction.icon;
-                    CharSequence actionTitle=mAction.title;
-                    PendingIntent pendingIntent=mAction.actionIntent;
-                }
-            }*/
         }
+        }
+
     }
 
     @Override
@@ -78,6 +60,7 @@ public class NotificationListener extends NotificationListenerService {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.i("OnSestory", "");
         unregisterReceiver(pendingIntentReceiver);
 
     }
@@ -86,13 +69,17 @@ public class NotificationListener extends NotificationListenerService {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d("点击广播", "微信");
 
-            if (intent != null) {
+            if (intent != null && ((petApplication) getApplication()).getMsbn() != null) {
                 Log.d("启动应用", "微信");
                 try {
-                    if (msbn.getNotification() != null) {
-                        PendingIntent pendingIntent = msbn.getNotification().contentIntent;
+                    if (((petApplication) getApplication()).getMsbn().getNotification() != null) {
+                        PendingIntent pendingIntent = ((petApplication) getApplication()).getMsbn().getNotification().contentIntent;
                         pendingIntent.send();
+                        //msbn=null;
+                        ((petApplication) getApplication()).setMsbn1(null);
+                        Log.i("Msbn1", ((petApplication) getApplication()).getMsbn() + "");
                     }
 
                 } catch (PendingIntent.CanceledException e) {
