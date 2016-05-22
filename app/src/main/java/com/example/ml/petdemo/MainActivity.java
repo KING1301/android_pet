@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity
 
     public static boolean isServiceRunning(Context mContext, String className) {
         boolean isRunning = false;
-        ActivityManager activityManager = (ActivityManager)
+       /* ActivityManager activityManager = (ActivityManager)
                 mContext.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningServiceInfo> serviceList
                 = activityManager.getRunningServices(300);
@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity
                 isRunning = true;
                 break;
             }
-        }
+        }*/
         return isRunning;
     }
 

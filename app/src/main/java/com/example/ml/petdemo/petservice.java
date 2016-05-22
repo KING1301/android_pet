@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 public class petservice extends Service {
+    private config petconfig;
 
     private static final String TAG = "petfloatservice";
     protected MyReceiver mReceiver = new MyReceiver();
@@ -137,6 +138,7 @@ public class petservice extends Service {
         super.onCreate();
         Log.i(TAG, "oncreat");
         createFloatView();
+       // config.getpetconfig()
         handler.postDelayed(runnable, 1000 * 6);
         if (mReceiver == null) mReceiver = new MyReceiver();
         registerReceiver(mReceiver, new IntentFilter("WECHAT_NOTICE"));
