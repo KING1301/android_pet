@@ -28,8 +28,7 @@ public class petFragment extends Fragment {
     private TextView petyear;
     private ImageView petview;
     private config petconfig;
-    //private   SharedPreferences petpref;
-    //private   SharedPreferences.Editor petprefedit;
+
 
 
     @Nullable
@@ -56,11 +55,6 @@ public class petFragment extends Fragment {
             petview.setImageResource(R.drawable.petanzai);
         else
             petview.setImageResource(R.drawable.petbear);
-        //petpref = getActivity().getSharedPreferences("petpref", Context.MODE_PRIVATE);
-        //petprefedit=petpref.edit();
-        //Log.i("petname",petpref.getString("petname","petname"));
-        //petname.setText(petpref.getString("petname","petname"));
-        //petyear.setText(petpref.getString("petyear","petyear"));
 
         cardpetname.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,9 +72,6 @@ public class petFragment extends Fragment {
                 alert.setView(input);
                 alert.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //petprefedit.putString("petname",input.getText().toString());
-                       // petprefedit.commit();
-                        //Log.i("pref",petpref.getString("petname"," "));
                         petconfig.setpetname(input.getText().toString());
 
                         petname.setText(input.getText());
@@ -109,8 +100,6 @@ public class petFragment extends Fragment {
                 alert.setView(input);
                 alert.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                       // petprefedit.putString("petyear",input.getText().toString());
-                        //petprefedit.commit();
                         petconfig.setpetyear(input.getText().toString());
                         petyear.setText(input.getText());
                     }
@@ -140,6 +129,11 @@ public class petFragment extends Fragment {
                             petconfig.setpettype(0);
                         else
                             petconfig.setpettype(1);
+
+                        if (petconfig.gettype()==0)
+                            petview.setImageResource(R.drawable.petanzai);
+                        else
+                            petview.setImageResource(R.drawable.petbear);
                         Log.i("radioid",radioButtonId+"");
                         Log.i("radioid1",R.id.pettype1+"");
                         Log.i("radioid2",R.id.pettype2+"");
@@ -148,17 +142,6 @@ public class petFragment extends Fragment {
                                         //tv.setText("您的性别是：" + rb.getText());
                                    }
                              });
-
-
-                //alert.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                   // public void onClick(DialogInterface dialog, int whichButton) {
-                        // petprefedit.putString("petyear",input.getText().toString());
-                        //petprefedit.commit();
-
-                        //petconfig.setpetyear(input.getText().toString());
-                        //petyear.setText(input.getText());
-                   // }
-                //});
                 alert.show();
 
             }

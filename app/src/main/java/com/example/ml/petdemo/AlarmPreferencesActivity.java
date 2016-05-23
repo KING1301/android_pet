@@ -197,7 +197,7 @@ public class AlarmPreferencesActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menutest, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
     @Override

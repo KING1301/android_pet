@@ -15,7 +15,7 @@
                 android:text="安仔"
                 android:id="@+id/pettype1"
                 android:layout_margin="10dp"
-                android:checked="true" />
+                 />
 
 
 

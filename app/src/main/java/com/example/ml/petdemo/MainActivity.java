@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -33,6 +34,11 @@ public class MainActivity extends BaseActivity
     private ViewPager mViewPager;    //ViewPager控件实现滑动切换标签页
     private AlarmListAdapter alarmListAdapter;
     private List<Fragment> fragments;
+    private config petconfig;
+    /* 上一次按返回按键的时间 */
+    private long preBackPressTime;
+    /* 按返回按键的次数 */
+    private long pressTimes;
 
 
     public static boolean isServiceRunning(Context mContext, String className) {
@@ -61,7 +67,12 @@ public class MainActivity extends BaseActivity
         initView();
 
         Log.i("update","更新activity");
-        startService(new Intent(this,petservice.class));
+       petconfig=config.getpetconfig(this);
+
+        //启动petservice
+        Intent petintent=new Intent(this,petservice.class);
+        petintent.putExtra("pettype",petconfig.gettype());
+        startService(petintent);
         Log.i("petservice","service悬浮窗启动");
         //检测通知栏监控服务是否启动，没有提示用户设置
         if (!isServiceRunning(this, "com.example.ml.petdemo.NotificationListener")) {
@@ -69,7 +80,6 @@ public class MainActivity extends BaseActivity
                     .setAction("设置", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // Perform anything for the action selected
                             Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
                             startActivity(intent);
                         }
@@ -155,16 +165,17 @@ public class MainActivity extends BaseActivity
                 //主界面左上角的icon点击打开侧边栏
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
-            case R.id.menu_info_details:
-                mViewPager.setCurrentItem(0);
-                break;
-            case R.id.menu_share:
-                mViewPager.setCurrentItem(1);
-                break;
+
+           // case R.id.menu_info_details:
+           //     mViewPager.setCurrentItem(0);
+           //     break;
+            //case R.id.menu_share:
+           //     mViewPager.setCurrentItem(1);
+           //     break;
            // case R.id.menu_agenda:
              //   mViewPager.setCurrentItem(2);
             //    break;
-            case R.id.access:
+            case R.id.setting:
                 Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
                 startActivity(intent);
 
@@ -174,7 +185,7 @@ public class MainActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-
+/*
     @Override
     public void onBackPressed() {
 
@@ -184,7 +195,39 @@ public class MainActivity extends BaseActivity
             super.onBackPressed();
         }
     }
+*/
+@Override
+public void onBackPressed() {
+    Log.d("test0", "onbackpressed");
 
+    if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+    } else {
+        Log.d("test1", "onbackpressed");
+        if (onBackPressed_is_true()) {
+            Log.d("test", "onbackpressed");
+            super.onBackPressed();
+
+        }
+
+    }
+}
+
+    public boolean onBackPressed_is_true() {
+        long cBackPressTime = SystemClock.uptimeMillis();
+        if (cBackPressTime - preBackPressTime < 2000) {
+            pressTimes++;
+            if (pressTimes >= 2) {
+                return true;
+            }
+        } else {
+            pressTimes = 1;
+            Snackbar.make(mTabLayout, "再次点击退出", Snackbar.LENGTH_SHORT)
+                    .show();
+        }
+        preBackPressTime = cBackPressTime;
+        return false;
+    }
 
 
     @Override
