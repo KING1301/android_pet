@@ -44,10 +44,6 @@ public class Alarm implements Serializable {
         return alarmTime;
     }
 
-    public void setAlarmTime(Calendar alarmTime) {
-        this.alarmTime = alarmTime;
-    }
-
     public void setAlarmTime(String alarmTime) {
 
         String[] timePieces = alarmTime.split(":");
@@ -58,6 +54,10 @@ public class Alarm implements Serializable {
         newAlarmTime.set(Calendar.MINUTE, Integer.parseInt(timePieces[1]));
         newAlarmTime.set(Calendar.SECOND, 0);
         setAlarmTime(newAlarmTime);
+    }
+
+    public void setAlarmTime(Calendar alarmTime) {
+        this.alarmTime = alarmTime;
     }
 
     public String getAlarmTimeString() {

@@ -237,12 +237,12 @@ public class petservice extends Service {
                             if (pettype == 0)
                                 mFloatView.setImageResource(R.drawable.assist_anzai_pressed_left_green);
                             else
-                                mFloatView.setImageResource(R.drawable.assist_anzai_pressed_left_green);
+                                mFloatView.setImageResource(R.drawable.petbear_left);
                         } else if (screenWidth - startx < screenWidth / 6) {
                             if (pettype == 0)
                                 mFloatView.setImageResource(R.drawable.assist_anzai_pressed_right_green);
                             else
-                                mFloatView.setImageResource(R.drawable.assist_anzai_pressed_right_green);
+                                mFloatView.setImageResource(R.drawable.petbear_right);
 
                         }
 
@@ -254,7 +254,7 @@ public class petservice extends Service {
                         if (pettype == 0)
                             mFloatView.setImageResource(R.drawable.l);
                         else
-                            mFloatView.setImageResource(R.drawable.l);
+                            mFloatView.setImageResource(R.drawable.petbear_wk);
                         int dx = newx - startx;
                         int dy = newy - starty;
                         wmParams.x += dx;
@@ -278,7 +278,7 @@ public class petservice extends Service {
                             if (pettype == 0)
                                 mFloatView.setImageResource(R.drawable.assist_anzai_left_green);
                             else
-                                mFloatView.setImageResource(R.drawable.assist_anzai_left_green);
+                                mFloatView.setImageResource(R.drawable.petbear_left);
 
 
                         } else if (startx >= 5 * screenWidth / 6) {
@@ -287,27 +287,27 @@ public class petservice extends Service {
                             if (pettype == 0)
                                 mFloatView.setImageResource(R.drawable.assist_anzai_right_green);
                             else
-                                mFloatView.setImageResource(R.drawable.assist_anzai_right_green);
+                                mFloatView.setImageResource(R.drawable.petbear_right);
 
                         } else if (starty <= screenHeight / 3) {
                             if (pettype == 0)
                                 mFloatView.setImageResource(R.drawable.m);
                             else
-                                mFloatView.setImageResource(R.drawable.bear_m);
+                                mFloatView.setImageResource(R.drawable.petbear_m);
 
 
                         } else if (starty <= 2 * screenHeight / 3) {
                             if (pettype == 0)
                                 mFloatView.setImageResource(R.drawable.sk);
                             else
-                                mFloatView.setImageResource(R.drawable.sk);
+                                mFloatView.setImageResource(R.drawable.petbear_sk);
 
 
                         } else {
                             if (pettype == 0)
                                 mFloatView.setImageResource(R.drawable.tb);
                             else
-                                mFloatView.setImageResource(R.drawable.tb);
+                                mFloatView.setImageResource(R.drawable.petbear_tb);
                         }
 
 
@@ -405,7 +405,10 @@ public class petservice extends Service {
                 //CharSequence notificationSubText = extras.getCharSequence(Notification.EXTRA_SUB_TEXT);
                 state = STATE.WECHAT_NOTICE;
                 mTextview.setVisibility(View.VISIBLE);
-                mFloatView.setImageResource(R.drawable.wk);
+                if (type == 0)
+                    mFloatView.setImageResource(R.drawable.wk);
+                else
+                    mFloatView.setImageResource(R.drawable.petbear_wk);
                 mTextview.setText(notificationTitle + "\n" + notificationText);
 
                 // if (notificationLargeIcon != null) {
