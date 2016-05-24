@@ -8,21 +8,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AlarmListAdapter extends BaseAdapter {
 
+    public static final String ALARM_FIELDS[] = {Database.COLUMN_ALARM_ACTIVE,
+            Database.COLUMN_ALARM_TIME, Database.COLUMN_ALARM_DAYS};
     private MainActivity alarmActivity;
     private List<Alarm> alarms = new ArrayList<Alarm>();
 
-    public static final String ALARM_FIELDS[] = { Database.COLUMN_ALARM_ACTIVE,
-            Database.COLUMN_ALARM_TIME, Database.COLUMN_ALARM_DAYS };
-
     public AlarmListAdapter(MainActivity alarmActivity) {
         this.alarmActivity = alarmActivity;
-		Database.init(alarmActivity);
-		alarms = Database.getAll();
+        Database.init(alarmActivity);
+        alarms = Database.getAll();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class AlarmListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        Log.e("getView","getview");
+        Log.e("getView", "getview");
         if (null == view)
             view = LayoutInflater.from(alarmActivity).inflate(
                     R.layout.alarm_list_element, null);

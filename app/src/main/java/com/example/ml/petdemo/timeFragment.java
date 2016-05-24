@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +17,9 @@ import android.widget.ListView;
 import java.util.List;
 
 
+public class timeFragment extends Fragment {
 
-
-public class timeFragment extends Fragment  {
-
-    private  View view;
+    private View view;
     private ListView mathAlarmListView;
     private AlarmListAdapter alarmListAdapter;
     private android.support.design.widget.FloatingActionButton fab;
@@ -32,17 +29,16 @@ public class timeFragment extends Fragment  {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //反射加载事件提醒布局
-        super.onCreateView(inflater,container,savedInstanceState);
-        view = inflater.inflate(R.layout.alarm_list,container,false);
+        super.onCreateView(inflater, container, savedInstanceState);
+        view = inflater.inflate(R.layout.alarm_list, container, false);
         mathAlarmListView = (ListView) view.findViewById(R.id.list);
-        fab=(FloatingActionButton)view.findViewById(R.id.fab);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
 
 
         alarmListAdapter = new AlarmListAdapter((MainActivity) getActivity());
@@ -64,7 +60,7 @@ public class timeFragment extends Fragment  {
 
                         Database.init(getActivity());
                         Database.deleteEntry(alarm);
-                        ((MainActivity)getActivity()).callMathAlarmScheduleService();
+                        ((MainActivity) getActivity()).callMathAlarmScheduleService();
 
                         updateAlarmList();
                     }
@@ -84,7 +80,7 @@ public class timeFragment extends Fragment  {
 
         //启动alarm服务
 
-        ((MainActivity)getActivity()).callMathAlarmScheduleService();
+        ((MainActivity) getActivity()).callMathAlarmScheduleService();
 
 
         mathAlarmListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -101,16 +97,13 @@ public class timeFragment extends Fragment  {
         });
 
 
-
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),AlarmPreferencesActivity.class));
+                startActivity(new Intent(getActivity(), AlarmPreferencesActivity.class));
             }
         });
     }
-
 
 
     @Override
@@ -122,20 +115,18 @@ public class timeFragment extends Fragment  {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("update list","update list");
         updateAlarmList();
     }
 
-    public void updateAlarmList(){
+    public void updateAlarmList() {
         Database.init(getActivity());
         final List<Alarm> alarms = Database.getAll();
         alarmListAdapter.setMathAlarms(alarms);
 
-                alarmListAdapter.notifyDataSetChanged();
+        alarmListAdapter.notifyDataSetChanged();
     }
 
-    public AlarmListAdapter getAlarmListAdapter()
-    {
+    public AlarmListAdapter getAlarmListAdapter() {
         return alarmListAdapter;
     }
 

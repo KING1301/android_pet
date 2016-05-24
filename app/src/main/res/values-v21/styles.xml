@@ -1,1 +1,10 @@
-<resources></resources>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/holo_blue_light</item>
+        <item name="colorPrimaryDark">#1785C6</item>
+        <item name="colorAccent">@color/accent_material_light</item>
+        <item name="android:navigationBarColor">@color/color_3</item>
+    </style>
+</resources>

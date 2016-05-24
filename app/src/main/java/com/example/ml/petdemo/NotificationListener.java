@@ -33,13 +33,13 @@ public class NotificationListener extends NotificationListenerService {
             ((petApplication) getApplication()).setMsbn1(sbn);
             //Notification mNotification = msbn.getNotification();
             Notification mNotification = sbn.getNotification();
-        if (mNotification!=null){
-            Bundle extras = mNotification.extras;
-            Log.d("信息",mNotification.tickerText+"");
-            Intent intent = new Intent("WECHAT_NOTICE");
-            intent.putExtras(mNotification.extras);
-            sendBroadcast(intent);
-        }
+            if (mNotification != null) {
+                Bundle extras = mNotification.extras;
+                Log.d("信息", mNotification.tickerText + "");
+                Intent intent = new Intent("WECHAT_NOTICE");
+                intent.putExtras(mNotification.extras);
+                sendBroadcast(intent);
+            }
         }
 
     }

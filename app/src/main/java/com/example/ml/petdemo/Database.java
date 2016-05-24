@@ -33,7 +33,10 @@ public class Database extends SQLiteOpenHelper {
     static final int DATABASE_VERSION = 1;
     static Database instance = null;
     static SQLiteDatabase database = null;
-    /**调用父类构造器，创建数据库*/
+
+    /**
+     * 调用父类构造器，创建数据库
+     */
     Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -57,7 +60,9 @@ public class Database extends SQLiteOpenHelper {
         return database;
     }
 
-    /**关闭数据库*/
+    /**
+     * 关闭数据库
+     */
     public static void deactivate() {
         if (null != database && database.isOpen()) {
             database.close();
@@ -66,7 +71,9 @@ public class Database extends SQLiteOpenHelper {
         instance = null;
     }
 
-    /**向数据库中插入ALARM类对象数据*/
+    /**
+     * 向数据库中插入ALARM类对象数据
+     */
     public static long create(Alarm alarm) {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_ALARM_ACTIVE, alarm.getAlarmActive());
@@ -108,7 +115,7 @@ public class Database extends SQLiteOpenHelper {
 
             cv.put(COLUMN_ALARM_DAYS, buff);
 
-        } catch (Exception e){
+        } catch (Exception e) {
         }
 
         cv.put(COLUMN_ALARM_RING, alarm.getAlarmRing());
@@ -130,7 +137,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public static Cursor getCursor() {
-        // TODO Auto-generated method stub
+
         String[] columns = new String[]{
                 COLUMN_ALARM_ID,
                 COLUMN_ALARM_ACTIVE,

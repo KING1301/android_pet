@@ -4,8 +4,10 @@ package com.example.ml.petdemo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-/**接受开机广播，开机启动服务*/
+
+/**
+ * 接受开机广播，开机启动服务
+ */
 public class AlarmServiceBroadcastReciever extends BroadcastReceiver {
 
     @Override

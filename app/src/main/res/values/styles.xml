@@ -3,13 +3,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#34A2DA</item>
+        <item name="colorPrimary">@android:color/holo_blue_light</item>
         <item name="colorPrimaryDark">#1785C6</item>
-        <!--<item name="colorAccent">#FF4081</item>
-        <item name="android:windowBackground">@android:color/white</item>-->
+        <item name="colorAccent">@color/accent_material_light</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
