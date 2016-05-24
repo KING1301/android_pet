@@ -2,23 +2,6 @@ package com.example.ml.petdemo;
 
 public class AlarmPreference {
 
-    public enum Key{
-        ALARM_NAME,
-        ALARM_ACTIVE,
-        ALARM_TIME,
-        ALARM_REPEAT,
-        ALARM_VIBRATE,
-        ALARM_RING,
-    }
-
-    public enum Type{
-        BOOLEAN,
-        STRING,
-        LIST,
-        MULTIPLE_LIST,
-        TIME
-    }
-
     private Key key;
     private String title;
     private String summary;
@@ -27,10 +10,10 @@ public class AlarmPreference {
     private Type type;
 
     public AlarmPreference(Key key, Object value, Type type) {
-        this(key,null,null,null, value, type);
+        this(key, null, null, null, value, type);
     }
 
-    public AlarmPreference(Key key,String title, String summary, String[] options, Object value, Type type) {
+    public AlarmPreference(Key key, String title, String summary, String[] options, Object value, Type type) {
         setTitle(title);
         setSummary(summary);
         setOptions(options);
@@ -85,5 +68,22 @@ public class AlarmPreference {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public enum Key {
+        ALARM_NAME,
+        ALARM_ACTIVE,
+        ALARM_TIME,
+        ALARM_REPEAT,
+        ALARM_VIBRATE,
+        ALARM_RING,
+    }
+
+    public enum Type {
+        BOOLEAN,
+        STRING,
+        LIST,
+        MULTIPLE_LIST,
+        TIME
     }
 }

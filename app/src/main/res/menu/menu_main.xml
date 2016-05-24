@@ -2,16 +2,23 @@
     <item
         android:id="@+id/newalart"
         android:checked="true"
-        android:icon="@android:drawable/ic_menu_info_details"
-        android:title="newalart" />
 
-    <item android:id="@+id/setting"
+        android:title="新建提醒" />
+
+    <item
+        android:id="@+id/settingfloat"
         android:checked="true"
-        android:icon="@android:drawable/ic_menu_share"
-        android:title="setting" />
+
+        android:title="开启悬浮窗权限" />
+
+    <item
+        android:id="@+id/settingnotice"
+        android:checked="true"
+
+        android:title="开启通知栏权限" />
 
     <item android:id="@+id/about"
         android:checked="true"
-        android:icon="@android:drawable/ic_menu_agenda"
-        android:title="about" />
+
+        android:title="关于" />
 </menu>

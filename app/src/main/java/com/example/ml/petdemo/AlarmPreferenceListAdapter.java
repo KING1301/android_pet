@@ -12,17 +12,18 @@ import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
+import com.example.ml.petdemo.AlarmPreference.Type;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.example.ml.petdemo.AlarmPreference.Type;
 
 public class AlarmPreferenceListAdapter extends BaseAdapter {
 
 
+    private final String[] repeatDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
     private Context context;
     private Alarm alarm;
     private List<AlarmPreference> preferences = new ArrayList<AlarmPreference>();
-    private final String[] repeatDays = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
 
     public AlarmPreferenceListAdapter(Context context, Alarm alarm) {
@@ -79,18 +80,16 @@ public class AlarmPreferenceListAdapter extends BaseAdapter {
     public void setMathAlarm(Alarm alarm) {
         this.alarm = alarm;
         preferences.clear();
-        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_ACTIVE, "Active", null, null, alarm.getAlarmActive(), Type.BOOLEAN));
-        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_NAME, "Label", alarm.getAlarmName(), null, alarm.getAlarmName(), Type.STRING));
-        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_TIME, "Set time", alarm.getAlarmTimeString(), null, alarm.getAlarmTime(), Type.TIME));
-        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_REPEAT, "Repeat", alarm.getRepeatDaysString(), repeatDays, alarm.getDays(), Type.MULTIPLE_LIST));
-        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_VIBRATE, "Vibrate", null, null, alarm.getVibrate(), Type.BOOLEAN));
-        Log.w("ring",alarm.getAlarmRing());
+        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_ACTIVE, "提醒", null, null, alarm.getAlarmActive(), Type.BOOLEAN));
+        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_NAME, "备注", alarm.getAlarmName(), null, alarm.getAlarmName(), Type.STRING));
+        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_TIME, "提醒事件", alarm.getAlarmTimeString(), null, alarm.getAlarmTime(), Type.TIME));
+        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_REPEAT, "重复", alarm.getRepeatDaysString(), repeatDays, alarm.getDays(), Type.MULTIPLE_LIST));
+        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_VIBRATE, "震动", null, null, alarm.getVibrate(), Type.BOOLEAN));
+        Log.w("ring", alarm.getAlarmRing());
         Uri alarmToneUri = Uri.parse(alarm.getAlarmRing());
         Ringtone alarmRing = RingtoneManager.getRingtone(getContext(), alarmToneUri);
 
-            preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_RING, "Ringtone", alarmRing.getTitle(getContext()),null, alarm.getAlarmRing(), Type.LIST));
-
-
+        preferences.add(new AlarmPreference(AlarmPreference.Key.ALARM_RING, "铃声", alarmRing.getTitle(getContext()), null, alarm.getAlarmRing(), Type.LIST));
 
 
     }

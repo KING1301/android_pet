@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-/**闹钟事件广播接收器 闹钟时间到后处理相关时间*/
+/**
+ * 闹钟事件广播接收器 闹钟时间到后处理相关时间
+ */
 public class AlarmAlertBroadcastReciever extends BroadcastReceiver {
 
     @Override

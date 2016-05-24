@@ -25,132 +25,118 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 public class petservice extends Service {
-    private config petconfig;
 
     private static final String TAG = "petfloatservice";
     protected MyReceiver mReceiver = new MyReceiver();
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams wmParams;
-    private  RelativeLayout mRelativeLayout;
+    private RelativeLayout mRelativeLayout;
     private ImageView mFloatView;
     private TextView mTextview;
     private AnimationDrawable animationDrawable;
-    private  int screenWidth=0;
-    private  int screenHeight=0;
-    private  int startx=0;
-    private  int starty=0;
+    private int screenWidth = 0;
+    private int screenHeight = 0;
+    private int startx = 0;
+    private int starty = 0;
     private int type;
     /*
     *用于定时刷新界面
      */
-    private STATE state=STATE.STOP;
+    private STATE state = STATE.STOP;
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         public void run() {
             this.update();
             handler.postDelayed(this, 1000 * 12);// 间隔120秒
         }
+
         int update() {
-         //   if(mWindowManager!=null&&mFloatView!=null)
-          //  {
-            if(mFloatView==null||mFloatView==null)
+
+            if (mRelativeLayout == null)
                 return 0;
-            Log.i("time","update");
+            Log.i("time", "update");
             mTextview.setTextColor(getResources().getColor(R.color.color_0));
-            if(wmParams.x==0||wmParams.x==screenWidth)
-            {
+            if (wmParams.x == 0 || wmParams.x == screenWidth) {
                 return 0;
             }
 
-                switch(state)
-                {
-                    case STOP:
-                        state=STATE.values()[1];
-                        break;
-                    case NORMAL0:
-                        mTextview.setText(state.toString());
-                        mTextview.setVisibility(View.VISIBLE);
-                        state=STATE.values()[2];
-                        if(starty<=screenHeight/3)
-                        {
+            switch (state) {
+                case STOP:
+                    state = STATE.values()[1];
+                    break;
+                case NORMAL0:
+                    mTextview.setText(state.toString());
+                    mTextview.setVisibility(View.VISIBLE);
+                    state = STATE.values()[2];
+                    if (starty <= screenHeight / 3) {
+                        if (type == 0)
                             mFloatView.setImageResource(R.drawable.o);
-                        }
-                        else if(starty<=2*screenHeight/3)
-                        {
-                            mFloatView.setImageResource(R.drawable.top_normal0);
-                            animationDrawable = (AnimationDrawable) mFloatView.getDrawable();
-                            animationDrawable.stop();
-                            animationDrawable.start();
-                        }
                         else
-                        {
-                            if(type==0)
+                            mFloatView.setImageResource(R.drawable.petbear);
+                    } else if (starty <= 2 * screenHeight / 3) {
+                        mFloatView.setImageResource(R.drawable.top_normal0);
+                        animationDrawable = (AnimationDrawable) mFloatView.getDrawable();
+                        animationDrawable.stop();
+                        animationDrawable.start();
+                    } else {
+                        if (type == 0)
                             mFloatView.setImageResource(R.drawable.tb);
-                            else
-                                mFloatView.setImageResource(R.drawable.tb);
+                        else
+                            mFloatView.setImageResource(R.drawable.tb);
 
-                        }
+                    }
 
 
-                        break;
-                    case NORMAL1:
-                        mTextview.setText(state.toString());
-                        mTextview.setVisibility(View.VISIBLE);
-                        state=STATE.values()[3];
-                        //mFloatView.setImageResource(R.drawable.o);
-                        if(starty<=screenHeight/3)
-                        {
-                            if ((type==0))
+                    break;
+                case NORMAL1:
+                    mTextview.setText(state.toString());
+                    mTextview.setVisibility(View.VISIBLE);
+                    state = STATE.values()[3];
+                    //mFloatView.setImageResource(R.drawable.o);
+                    if (starty <= screenHeight / 3) {
+                        if ((type == 0))
                             mFloatView.setImageResource(R.drawable.w);
-                            else
-                                mFloatView.setImageResource(R.drawable.w);
-                        }
-                        else if(starty<=2*screenHeight/3)
-                        {
-                            if (type==0)
+                        else
+                            mFloatView.setImageResource(R.drawable.w);
+                    } else if (starty <= 2 * screenHeight / 3) {
+                        if (type == 0)
                             mFloatView.setImageResource(R.drawable.uk);
-                            else
-                                mFloatView.setImageResource(R.drawable.uk);
-
-                        }
                         else
-                        {
-                            if(type==0)
+                            mFloatView.setImageResource(R.drawable.uk);
+
+                    } else {
+                        if (type == 0)
                             mFloatView.setImageResource(R.drawable.tb);
-                            else
-                                mFloatView.setImageResource(R.drawable.tb);
-                        }
-                        break;
-                    case NORMAL2:
-                        mTextview.setText(state.toString());
-                        mTextview.setVisibility(View.VISIBLE);
-                        state=STATE.values()[3];
-                        if(starty<=screenHeight/3)
-                        {
-                            if(type==0)
+                        else
+                            mFloatView.setImageResource(R.drawable.tb);
+                    }
+                    break;
+                case NORMAL2:
+                    mTextview.setText(state.toString());
+                    mTextview.setVisibility(View.VISIBLE);
+                    state = STATE.values()[3];
+                    if (starty <= screenHeight / 3) {
+                        if (type == 0)
                             mFloatView.setImageResource(R.drawable.n);
-                            else
-                                mFloatView.setImageResource(R.drawable.n);
-                        }
-                        else if(starty<=2*screenHeight/3)
-                        {
-                            if(type==0)
-                            mFloatView.setImageResource(R.drawable.wk);
-                            else
-                                mFloatView.setImageResource(R.drawable.wk);
-                        }
                         else
-                        {
-                            if (type==0)
+                            mFloatView.setImageResource(R.drawable.n);
+                    } else if (starty <= 2 * screenHeight / 3) {
+                        if (type == 0)
+                            mFloatView.setImageResource(R.drawable.wk);
+                        else
+                            mFloatView.setImageResource(R.drawable.wk);
+                    } else {
+                        if (type == 0)
                             mFloatView.setImageResource(R.drawable.tb);
-                            else
-                                mFloatView.setImageResource(R.drawable.tb);
+                        else
+                            mFloatView.setImageResource(R.drawable.tb);
 
-                        }
-                        break;
+                    }
+                    break;
 
-                }
+            }
             return 0;
 
 
@@ -159,7 +145,7 @@ public class petservice extends Service {
 
     @Override
     public void onCreate() {
-        // TODO Auto-generated method stub
+
         super.onCreate();
         //createFloatView();
         handler.postDelayed(runnable, 1000 * 6);
@@ -170,36 +156,31 @@ public class petservice extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        Log.i("onstart","onstart");
-        int newtype=intent.getIntExtra("pettype",0);
-        if(type==newtype)
-        {
-            if (mFloatView==null||mFloatView==null)
-            {
-                createFloatView(type);
-                Log.i("onstart","初始化floatview");
+        Log.i("onstart", "onstart");
+        int newtype = intent.getIntExtra("pettype", 0);
+        if (mRelativeLayout == null) {
+            type = newtype;
+            createFloatView(type);
+            Log.i("onstart", "初始化floatview");
+        } else {
+            if (type != newtype) {
+                Log.i("onstart", "刷新floatview");
+                type = newtype;
+                resetpet(type);
             }
 
+
         }
-        else
-        {
-            type=newtype;
-            removeview();
-            createFloatView(type);
-            Log.i("onstart","刷新view");
-        }
-        return 0;
+        return START_NOT_STICKY;
     }
 
+
     @Override
-    public IBinder onBind(Intent intent)
-    {
-        // TODO Auto-generated method stub
+    public IBinder onBind(Intent intent) {
         return null;
     }
 
-    private void createFloatView(final int pettype)
-    {
+    private void createFloatView(final int pettype) {
         wmParams = new WindowManager.LayoutParams();
         //获取的是WindowManagerImpl.CompatModeWrapper
         mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -226,7 +207,7 @@ public class petservice extends Service {
         mRelativeLayout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.petview, null);
         mFloatView = (ImageView) mRelativeLayout.findViewById(R.id.floatview);
         mTextview = (TextView) mRelativeLayout.findViewById(R.id.pettitle);
-        if (pettype==0)
+        if (pettype == 0)
             mFloatView.setImageResource(R.drawable.assist_anzai_left_green);//安仔贴边图片
         else
             mFloatView.setImageResource(R.drawable.assist_anzai_left_green);//模型2贴边图片
@@ -252,18 +233,14 @@ public class petservice extends Service {
                         startx = (int) event.getRawX();
                         starty = (int) event.getRawY();
                         Log.w("startx", startx + "");
-                        if (startx < screenWidth / 6)
-                        {
-                            if(pettype==0)
-                            mFloatView.setImageResource(R.drawable.assist_anzai_pressed_left_green);
+                        if (startx < screenWidth / 6) {
+                            if (pettype == 0)
+                                mFloatView.setImageResource(R.drawable.assist_anzai_pressed_left_green);
                             else
                                 mFloatView.setImageResource(R.drawable.assist_anzai_pressed_left_green);
-                        }
-
-                        else if (screenWidth - startx < screenWidth / 6)
-                        {
-                            if(pettype==0)
-                            mFloatView.setImageResource(R.drawable.assist_anzai_pressed_right_green);
+                        } else if (screenWidth - startx < screenWidth / 6) {
+                            if (pettype == 0)
+                                mFloatView.setImageResource(R.drawable.assist_anzai_pressed_right_green);
                             else
                                 mFloatView.setImageResource(R.drawable.assist_anzai_pressed_right_green);
 
@@ -274,7 +251,7 @@ public class petservice extends Service {
                     case MotionEvent.ACTION_MOVE:
                         int newx = (int) event.getRawX();
                         int newy = (int) event.getRawY();
-                        if(pettype==0)
+                        if (pettype == 0)
                             mFloatView.setImageResource(R.drawable.l);
                         else
                             mFloatView.setImageResource(R.drawable.l);
@@ -298,8 +275,8 @@ public class petservice extends Service {
                         if (startx <= screenWidth / 6) {
                             wmParams.x = 0;
                             mWindowManager.updateViewLayout(mRelativeLayout, wmParams);
-                            if(pettype==0)
-                            mFloatView.setImageResource(R.drawable.assist_anzai_left_green);
+                            if (pettype == 0)
+                                mFloatView.setImageResource(R.drawable.assist_anzai_left_green);
                             else
                                 mFloatView.setImageResource(R.drawable.assist_anzai_left_green);
 
@@ -307,28 +284,28 @@ public class petservice extends Service {
                         } else if (startx >= 5 * screenWidth / 6) {
                             wmParams.x = screenWidth;
                             mWindowManager.updateViewLayout(mRelativeLayout, wmParams);
-                            if (pettype==0)
-                            mFloatView.setImageResource(R.drawable.assist_anzai_right_green);
+                            if (pettype == 0)
+                                mFloatView.setImageResource(R.drawable.assist_anzai_right_green);
                             else
                                 mFloatView.setImageResource(R.drawable.assist_anzai_right_green);
 
                         } else if (starty <= screenHeight / 3) {
-                            if (pettype==0)
-                            mFloatView.setImageResource(R.drawable.m);
+                            if (pettype == 0)
+                                mFloatView.setImageResource(R.drawable.m);
                             else
                                 mFloatView.setImageResource(R.drawable.bear_m);
 
 
                         } else if (starty <= 2 * screenHeight / 3) {
-                            if (pettype==0)
-                            mFloatView.setImageResource(R.drawable.sk);
+                            if (pettype == 0)
+                                mFloatView.setImageResource(R.drawable.sk);
                             else
                                 mFloatView.setImageResource(R.drawable.sk);
 
 
                         } else {
-                            if(pettype==0)
-                            mFloatView.setImageResource(R.drawable.tb);
+                            if (pettype == 0)
+                                mFloatView.setImageResource(R.drawable.tb);
                             else
                                 mFloatView.setImageResource(R.drawable.tb);
                         }
@@ -346,32 +323,6 @@ public class petservice extends Service {
             }
         });
 
-        /*mFloatView.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                Log.i("onclick", "onclick" + startx + "\n" + starty + "");
-                if (startx >= screenWidth / 6 && startx <= 5 * screenWidth / 6) {
-                    if (starty <= screenWidth / 3) {
-                        mFloatView.setImageResource(R.drawable.m);
-
-
-                    } else if (starty <= 2 * screenWidth / 3) {
-                        mFloatView.setImageResource(R.drawable.m);
-
-
-                    } else {
-                        mFloatView.setImageResource(R.drawable.m);
-
-
-                    }
-
-                }
-
-            }
-        });
-        */
         /*监听信息点击*/
         mTextview.setOnClickListener(new OnClickListener() {
             @Override
@@ -396,36 +347,26 @@ public class petservice extends Service {
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
 
         super.onDestroy();
-        if (mFloatView != null)
-        {
-            //移除悬浮窗口
-            mWindowManager.removeView(mFloatView);
-        }
-        if (mTextview != null)
-        {
-            mWindowManager.removeView(mTextview);
-        }
+        Log.i("destory", "petserver");
         handler.removeCallbacks(runnable); //停止刷新
         unregisterReceiver(mReceiver);
-        Log.i("destory", "petserver");
-    }
-    public void removeview()
-    {
-        if (mFloatView != null)
-        {
-            //移除悬浮窗口
-            mWindowManager.removeView(mFloatView);
-        }
-        if (mTextview != null)
-        {
-            mWindowManager.removeView(mTextview);
-        }
+        if (mRelativeLayout != null)
+            mWindowManager.removeView(mRelativeLayout);
+        mWindowManager = null;
+        wmParams = null;
+
     }
 
+    public void resetpet(int type) {
+        if (mRelativeLayout != null)
+            mWindowManager.removeView(mRelativeLayout);
+        mWindowManager = null;
+        wmParams = null;
+        createFloatView(type);
+    }
 
     public enum STATE {
         STOP,
@@ -454,7 +395,6 @@ public class petservice extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            //StaticWakeLock.lockOn(context);
 
             if (intent != null) {
                 Bundle extras = intent.getExtras();
@@ -468,9 +408,9 @@ public class petservice extends Service {
                 mFloatView.setImageResource(R.drawable.wk);
                 mTextview.setText(notificationTitle + "\n" + notificationText);
 
-               // if (notificationLargeIcon != null) {
-               //     largeIcon.setImageBitmap(notificationLargeIcon);
-               // }
+                // if (notificationLargeIcon != null) {
+                //     largeIcon.setImageBitmap(notificationLargeIcon);
+                // }
             }
 
         }

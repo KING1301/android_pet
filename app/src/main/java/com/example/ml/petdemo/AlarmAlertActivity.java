@@ -15,7 +15,6 @@ import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -34,7 +33,10 @@ public class AlarmAlertActivity extends Activity implements View.OnClickListener
     private TextView problemView;//问题文本
     private TextView answerView;//回答文本
     private String answerString;
-    /** 生成问题并相应的初始化界面*/
+
+    /**
+     * 生成问题并相应的初始化界面
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,19 +68,19 @@ public class AlarmAlertActivity extends Activity implements View.OnClickListener
         answerView = (TextView) findViewById(R.id.textView2);
         answerView.setText("= ?");
 
-        ((Button) findViewById(R.id.Button0)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button1)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button2)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button3)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button4)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button5)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button6)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button7)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button8)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button9)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button_clear)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button_decimal)).setOnClickListener(this);
-        ((Button) findViewById(R.id.Button_minus)).setOnClickListener(this);
+        findViewById(R.id.Button0).setOnClickListener(this);
+        findViewById(R.id.Button1).setOnClickListener(this);
+        findViewById(R.id.Button2).setOnClickListener(this);
+        findViewById(R.id.Button3).setOnClickListener(this);
+        findViewById(R.id.Button4).setOnClickListener(this);
+        findViewById(R.id.Button5).setOnClickListener(this);
+        findViewById(R.id.Button6).setOnClickListener(this);
+        findViewById(R.id.Button7).setOnClickListener(this);
+        findViewById(R.id.Button8).setOnClickListener(this);
+        findViewById(R.id.Button9).setOnClickListener(this);
+        findViewById(R.id.Button_clear).setOnClickListener(this);
+        findViewById(R.id.Button_decimal).setOnClickListener(this);
+        findViewById(R.id.Button_minus).setOnClickListener(this);
 
         TelephonyManager telephonyManager = (TelephonyManager) this
                 .getSystemService(Context.TELEPHONY_SERVICE);
@@ -121,14 +123,17 @@ public class AlarmAlertActivity extends Activity implements View.OnClickListener
         super.onResume();
         alarmActive = true;
     }
-    /**设置闹铃提醒*/
+
+    /**
+     * 设置闹铃提醒
+     */
     private void startAlarm() {
 
-       if (alarm.getAlarmRing() != "") {
+        if (alarm.getAlarmRing() != "") {
             mediaPlayer = new MediaPlayer();
             if (alarm.getVibrate()) {
                 vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                long[] pattern = { 1000, 200, 200, 200 };
+                long[] pattern = {1000, 200, 200, 200};
                 vibrator.vibrate(pattern, 0);
             }
             try {
@@ -181,7 +186,10 @@ public class AlarmAlertActivity extends Activity implements View.OnClickListener
         }
         super.onDestroy();
     }
-    /**点击事件监听 获取输入的计算结果并与正确的计算结果比较*/
+
+    /**
+     * 点击事件监听 获取输入的计算结果并与正确的计算结果比较
+     */
     @Override
     public void onClick(View v) {
         if (!alarmActive)
@@ -232,7 +240,10 @@ public class AlarmAlertActivity extends Activity implements View.OnClickListener
             answerView.setTextColor(Color.BLACK);
         }
     }
-    /**校验计算结果是否正确*/
+
+    /**
+     * 校验计算结果是否正确
+     */
     public boolean isAnswerCorrect() {
         boolean correct = false;
         try {

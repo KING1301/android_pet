@@ -17,15 +17,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
-
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.util.Calendar;
 import com.example.ml.petdemo.AlarmPreference.Key;
+
+import java.util.Calendar;
 
 public class AlarmPreferencesActivity extends BaseActivity {
 
@@ -34,7 +33,7 @@ public class AlarmPreferencesActivity extends BaseActivity {
 
     private ListAdapter listAdapter;
     private ListView listView;
-
+    private CountDownTimer alarmToneTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,6 @@ public class AlarmPreferencesActivity extends BaseActivity {
 
         //初始化ToolBar
         toolbar = (Toolbar) this.findViewById(R.id.settool_bar);
-
 
 
         toolbar.setTitle("设置属性");
@@ -125,7 +123,7 @@ public class AlarmPreferencesActivity extends BaseActivity {
                         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
                         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "设置闹铃铃声");
                         //当设置完成之后返回到当前的Activity
-                        startActivityForResult(intent,0);
+                        startActivityForResult(intent, 0);
                         break;
 
                     case MULTIPLE_LIST:
@@ -193,13 +191,12 @@ public class AlarmPreferencesActivity extends BaseActivity {
         });
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -246,9 +243,6 @@ public class AlarmPreferencesActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private CountDownTimer alarmToneTimer;
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -283,14 +277,10 @@ public class AlarmPreferencesActivity extends BaseActivity {
     }
 
 
-
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        // TODO Auto-generated method stub
-        if (resultCode != RESULT_OK)
-        {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode != RESULT_OK) {
             return;
         }
         switch (requestCode) {
@@ -302,8 +292,8 @@ public class AlarmPreferencesActivity extends BaseActivity {
                     if (alarmRingUri != null) {
 
                         alarm.setAlarmRing(alarmRingUri.toString());
-                        ((AlarmPreferenceListAdapter)listAdapter).setMathAlarm(getMathAlarm());
-                        ((AlarmPreferenceListAdapter)listAdapter).notifyDataSetChanged();
+                        ((AlarmPreferenceListAdapter) listAdapter).setMathAlarm(getMathAlarm());
+                        ((AlarmPreferenceListAdapter) listAdapter).notifyDataSetChanged();
 
 
                     }

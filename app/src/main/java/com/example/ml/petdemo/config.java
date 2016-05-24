@@ -9,51 +9,47 @@ import android.content.SharedPreferences;
 //petdemo 获取相关配置类
 public class config {
     private static config petconfig;
-    private   SharedPreferences.Editor petconfigprefedit;
-    private  SharedPreferences petconfigpref;
+    private SharedPreferences.Editor petconfigprefedit;
+    private SharedPreferences petconfigpref;
 
-    private config(Context context)
-    {
-        petconfigpref=context.getSharedPreferences("petconfig",Context.MODE_PRIVATE);
-        petconfigprefedit=petconfigpref.edit();
+    private config(Context context) {
+        petconfigpref = context.getSharedPreferences("petconfig", Context.MODE_PRIVATE);
+        petconfigprefedit = petconfigpref.edit();
 
     }
-    public static config getpetconfig(Context context)
-    {
-        if (petconfig==null)
-            petconfig=new config(context);
+
+    public static config getpetconfig(Context context) {
+        if (petconfig == null)
+            petconfig = new config(context);
         return petconfig;
     }
-    public void setpetname(String name)
-    {
-        petconfigprefedit.putString("petname",name);
+
+    public void setpetname(String name) {
+        petconfigprefedit.putString("petname", name);
         petconfigprefedit.commit();
     }
-    public void setpetyear(String year)
-    {
-        petconfigprefedit.putString("petyear",year);
+
+    public void setpetyear(String year) {
+        petconfigprefedit.putString("petyear", year);
         petconfigprefedit.commit();
     }
+
     //type 代表不同的宠物模型
-    public void setpettype(int type)
-    {
-        petconfigprefedit.putInt("pettype",type);
+    public void setpettype(int type) {
+        petconfigprefedit.putInt("pettype", type);
         petconfigprefedit.commit();
     }
 
-    public String getpetname()
-    {
-        return petconfigpref.getString("petname","petname");
+    public String getpetname() {
+        return petconfigpref.getString("petname", "petname");
     }
 
-    public String getpetyear()
-    {
-        return  petconfigpref.getString("petyear","petyear");
+    public String getpetyear() {
+        return petconfigpref.getString("petyear", "petyear");
     }
 
-    public int gettype()
-    {
-        return petconfigpref.getInt("pettype",0);
+    public int gettype() {
+        return petconfigpref.getInt("pettype", 0);
     }
 
 

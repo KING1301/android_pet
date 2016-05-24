@@ -1,20 +1,17 @@
 package com.example.ml.petdemo;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -30,28 +27,27 @@ public class petFragment extends Fragment {
     private config petconfig;
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.petinfo, container, false);
-        cardpetname=(CardView)view.findViewById(R.id.cardpetname);
-        cardpetyear=(CardView)view.findViewById(R.id.cardpetyear);
-        petname=(TextView)view.findViewById(R.id.petname);
-        petyear=(TextView)view.findViewById(R.id.petyear);
-        petview=(ImageView)view.findViewById(R.id.petview);
-        cardpetview=(CardView)view.findViewById(R.id.cardpetview);
+        cardpetname = (CardView) view.findViewById(R.id.cardpetname);
+        cardpetyear = (CardView) view.findViewById(R.id.cardpetyear);
+        petname = (TextView) view.findViewById(R.id.petname);
+        petyear = (TextView) view.findViewById(R.id.petyear);
+        petview = (ImageView) view.findViewById(R.id.petview);
+        cardpetview = (CardView) view.findViewById(R.id.cardpetview);
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        petconfig=config.getpetconfig(getActivity());
+        petconfig = config.getpetconfig(getActivity());
         petname.setText(petconfig.getpetname());
         petyear.setText(petconfig.getpetyear());
-        if (petconfig.gettype()==0)
+        if (petconfig.gettype() == 0)
             petview.setImageResource(R.drawable.petanzai);
         else
             petview.setImageResource(R.drawable.petbear);
@@ -116,32 +112,43 @@ public class petFragment extends Fragment {
                 AlertDialog.Builder alert;
 
                 alert = new AlertDialog.Builder(getActivity());
-                View alartview=LayoutInflater.from(getActivity()).inflate(R.layout.setpettypeview, null);
+                View alartview = LayoutInflater.from(getActivity()).inflate(R.layout.setpettypeview, null);
                 alert.setTitle("选择宠物模型");
-                RadioGroup group = (RadioGroup)alartview.findViewById(R.id.radiogroup);
+                RadioGroup group = (RadioGroup) alartview.findViewById(R.id.radiogroup);
+                Log.d("type", petconfig.gettype() + "");
+                if (petconfig.gettype() == 0) {
+
+                    group.check(R.id.pettype1);
+                } else {
+                    group.check(R.id.pettype2);
+
+                    Log.d("checktype", 1 + "");
+
+                }
+
                 alert.setView(alartview);
+
                 group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup arg0, int arg1) {
                         int radioButtonId = arg0.getCheckedRadioButtonId();
-                                        //根据ID获取RadioButton的实例
-                        if(R.id.pettype1==radioButtonId)
+                        //根据ID获取RadioButton的实例
+                        if (R.id.pettype1 == radioButtonId)
                             petconfig.setpettype(0);
                         else
                             petconfig.setpettype(1);
 
-                        if (petconfig.gettype()==0)
+                        if (petconfig.gettype() == 0)
                             petview.setImageResource(R.drawable.petanzai);
                         else
                             petview.setImageResource(R.drawable.petbear);
-                        Log.i("radioid",radioButtonId+"");
-                        Log.i("radioid1",R.id.pettype1+"");
-                        Log.i("radioid2",R.id.pettype2+"");
-                                       //RadioButton rb = (RadioButton)MyActiviy.this.findViewById(radioButtonId);
-                                         //更新文本内容，以符合选中项
-                                        //tv.setText("您的性别是：" + rb.getText());
-                                   }
-                             });
+
+                        //启动petservice
+                        Intent petintent = new Intent(getActivity(), petservice.class);
+                        petintent.putExtra("pettype", petconfig.gettype());
+                        getActivity().startService(petintent);
+                    }
+                });
                 alert.show();
 
             }
