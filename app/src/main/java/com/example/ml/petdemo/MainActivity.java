@@ -151,7 +151,7 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {//创建标题栏左上角nenu菜单
+    public boolean onCreateOptionsMenu(Menu menu) {//创建菜单
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;

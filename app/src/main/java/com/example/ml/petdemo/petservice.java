@@ -25,6 +25,7 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class petservice extends Service {
 
@@ -49,7 +50,7 @@ public class petservice extends Service {
     private Runnable runnable = new Runnable() {
         public void run() {
             this.update();
-            handler.postDelayed(this, 1000 * 12);// 间隔120秒
+            handler.postDelayed(this, 1000 * 5);// 间隔120秒
         }
 
         int update() {
@@ -74,17 +75,21 @@ public class petservice extends Service {
                         if (type == 0)
                             mFloatView.setImageResource(R.drawable.o);
                         else
-                            mFloatView.setImageResource(R.drawable.petbear);
+                            mFloatView.setImageResource(R.drawable.petbear_m);
                     } else if (starty <= 2 * screenHeight / 3) {
-                        mFloatView.setImageResource(R.drawable.top_normal0);
-                        animationDrawable = (AnimationDrawable) mFloatView.getDrawable();
-                        animationDrawable.stop();
-                        animationDrawable.start();
+                        //mFloatView.setImageResource(R.drawable.top_normal0);
+                        //animationDrawable = (AnimationDrawable) mFloatView.getDrawable();
+                        //animationDrawable.stop();
+                        //animationDrawable.start();
+                        if (type == 0)
+                            mFloatView.setImageResource(R.drawable.tk);
+                        else
+                            mFloatView.setImageResource(R.drawable.petbear_sk);
                     } else {
                         if (type == 0)
                             mFloatView.setImageResource(R.drawable.tb);
                         else
-                            mFloatView.setImageResource(R.drawable.tb);
+                            mFloatView.setImageResource(R.drawable.petbear_tb);
 
                     }
 
@@ -99,18 +104,18 @@ public class petservice extends Service {
                         if ((type == 0))
                             mFloatView.setImageResource(R.drawable.w);
                         else
-                            mFloatView.setImageResource(R.drawable.w);
+                            mFloatView.setImageResource(R.drawable.petbear_w);
                     } else if (starty <= 2 * screenHeight / 3) {
                         if (type == 0)
                             mFloatView.setImageResource(R.drawable.uk);
                         else
-                            mFloatView.setImageResource(R.drawable.uk);
+                            mFloatView.setImageResource(R.drawable.petbear_sk1);
 
                     } else {
                         if (type == 0)
                             mFloatView.setImageResource(R.drawable.tb);
                         else
-                            mFloatView.setImageResource(R.drawable.tb);
+                            mFloatView.setImageResource(R.drawable.petbear_tb1);
                     }
                     break;
                 case NORMAL2:
@@ -121,18 +126,17 @@ public class petservice extends Service {
                         if (type == 0)
                             mFloatView.setImageResource(R.drawable.n);
                         else
-                            mFloatView.setImageResource(R.drawable.n);
+                            mFloatView.setImageResource(R.drawable.petbear_sk);
                     } else if (starty <= 2 * screenHeight / 3) {
                         if (type == 0)
                             mFloatView.setImageResource(R.drawable.wk);
                         else
-                            mFloatView.setImageResource(R.drawable.wk);
+                            mFloatView.setImageResource(R.drawable.petbear_sk2);
                     } else {
                         if (type == 0)
                             mFloatView.setImageResource(R.drawable.tb);
                         else
-                            mFloatView.setImageResource(R.drawable.tb);
-
+                            mFloatView.setImageResource(R.drawable.petbear_tb2);
                     }
                     break;
 
@@ -151,6 +155,9 @@ public class petservice extends Service {
         handler.postDelayed(runnable, 1000 * 6);
         if (mReceiver == null) mReceiver = new MyReceiver();
         registerReceiver(mReceiver, new IntentFilter("WECHAT_NOTICE"));
+        Toast toast = Toast.makeText(getApplicationContext(), "悬浮窗不显示请打开应用的悬浮窗权限", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     @Override
@@ -210,7 +217,7 @@ public class petservice extends Service {
         if (pettype == 0)
             mFloatView.setImageResource(R.drawable.assist_anzai_left_green);//安仔贴边图片
         else
-            mFloatView.setImageResource(R.drawable.assist_anzai_left_green);//模型2贴边图片
+            mFloatView.setImageResource(R.drawable.petbear_left);//模型2贴边图片
         mFloatView.setBackgroundColor(Color.TRANSPARENT);
 
 
